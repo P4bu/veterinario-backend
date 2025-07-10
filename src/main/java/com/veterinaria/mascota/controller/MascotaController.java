@@ -17,7 +17,7 @@ public class MascotaController {
         this.mascotaService = mascotaService;
     }
 
-    @PostMapping("/crearMascota/{pacienteId}")
+    @PostMapping("/crear/{pacienteId}")
     public ResponseEntity<Mascota> crear(@RequestBody Mascota mascota, @PathVariable Long pacienteId) {
         return ResponseEntity.ok(mascotaService.crearMascota(mascota, pacienteId));
     }
@@ -27,7 +27,7 @@ public class MascotaController {
         return ResponseEntity.ok(mascotaService.obtenerMascotaPorPaciente(pacienteId));
     }
 
-    @GetMapping("/listaMascotas")
+    @GetMapping("/todos")
     public ResponseEntity<List<Mascota>> obtenerMascotas() {
         return ResponseEntity.ok(mascotaService.ListarMascota());
     }

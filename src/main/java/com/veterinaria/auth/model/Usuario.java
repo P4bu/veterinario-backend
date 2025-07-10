@@ -1,7 +1,9 @@
 package com.veterinaria.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +22,10 @@ public class Usuario {
     private String password;
     private String rol;
 
+    @Column(name = "fecha_registro", nullable = false, updatable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime fechaRegistro;
+
     @ManyToMany
     @JoinTable(
             name = "usuario_roles",
@@ -31,15 +37,23 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, String rol, Set<Role> roles) {
+    public Usuario(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, LocalDateTime fechaRegistro, String rol, Set<Role> roles) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.email = email;
         this.password = password;
+        this.fechaRegistro = fechaRegistro;
         this.rol = rol;
         this.roles = roles;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if(this.fechaRegistro == null) {
+            this.fechaRegistro = LocalDateTime.now();
+        }
     }
 
     public Long getId() {
@@ -104,6 +118,14 @@ public class Usuario {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
     @Override

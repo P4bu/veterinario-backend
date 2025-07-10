@@ -17,19 +17,19 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @GetMapping("/paciente/todos")
+    @GetMapping("/todos")
     public ResponseEntity<List<Paciente>> listaPacientes(){
         return ResponseEntity.ok(pacienteService.listarPacientes());
     }
 
-    @GetMapping("/paciente/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Paciente> obtenerPaciente(@PathVariable Long id){
         return pacienteService.obtenerPacientePorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/paciente/crear")
+    @PostMapping("/crear")
     public ResponseEntity<Paciente> crearPaciente(@RequestBody Paciente paciente) {
         return ResponseEntity.ok(pacienteService.crearPaciente(paciente));
     }
