@@ -1,0 +1,37 @@
+package com.veterinaria.paciente.controller;
+
+import com.veterinaria.paciente.model.Paciente;
+import com.veterinaria.paciente.service.PacienteService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/pacientes")
+public class PacienteController {
+
+    private final PacienteService pacienteService;
+
+    public PacienteController(PacienteService pacienteService){
+        this.pacienteService = pacienteService;
+    }
+
+    @GetMapping("/paciente/todos")
+    public ResponseEntity<List<Paciente>> listaPacientes(){
+        return ResponseEntity.ok(pacienteService.listarPacientes());
+    }
+
+    @GetMapping("/paciente/{id}")
+    public ResponseEntity<Paciente> obtenerPaciente(@PathVariable Long id){
+        return pacienteService.obtenerPacientePorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/paciente/crear")
+    public ResponseEntity<Paciente> crearPaciente(@RequestBody Paciente paciente) {
+        return ResponseEntity.ok(pacienteService.crearPaciente(paciente));
+    }
+
+}
