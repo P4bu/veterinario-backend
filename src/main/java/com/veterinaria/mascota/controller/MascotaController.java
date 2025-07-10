@@ -27,4 +27,9 @@ public class MascotaController {
         return ResponseEntity.ok(mascotaService.obtenerMascotaPorPaciente(pacienteId));
     }
 
+    @GetMapping("/listaMascotas")
+    public ResponseEntity<List<Mascota>> obtenerMascotas() {
+        return ResponseEntity.ok(mascotaService.ListarMascota());
+    }
+
 }

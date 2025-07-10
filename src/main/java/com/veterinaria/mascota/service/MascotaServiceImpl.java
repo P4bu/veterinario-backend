@@ -24,4 +24,9 @@ public class MascotaServiceImpl implements MascotaService {
     public List<Mascota> obtenerMascotaPorPaciente(Long pacienteId) {
         return mascotaRepository.findByPacienteId(pacienteId);
     }
+
+    @Override
+    public List<Mascota> ListarMascota() {
+        return mascotaRepository.findAll();
+    }
 }
