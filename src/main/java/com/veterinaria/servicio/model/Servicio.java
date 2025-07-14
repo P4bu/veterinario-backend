@@ -1,5 +1,6 @@
 package com.veterinaria.servicio.model;
 
+import com.veterinaria.veterinario.model.Veterinario;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,15 +16,20 @@ public class Servicio {
     private Double precio;
     private int duracionMinutos;
 
+    @ManyToOne
+    @JoinColumn(name = "veterinario_id", nullable = false)
+    private Veterinario veterinario;
+
     public Servicio(){
     }
 
-    public Servicio(Long id, String nombre, String descripcion, Double precio, int duracionMinutos) {
+    public Servicio(Long id, String nombre, String descripcion, Double precio, int duracionMinutos, Veterinario veterinario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.duracionMinutos = duracionMinutos;
+        this.veterinario = veterinario;
     }
 
     public Long getId() {
@@ -64,6 +70,14 @@ public class Servicio {
 
     public void setDuracionMinutos(int duracionMinutos) {
         this.duracionMinutos = duracionMinutos;
+    }
+
+    public Veterinario getVeterinario() {
+        return veterinario;
+    }
+
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
     }
 
     @Override
