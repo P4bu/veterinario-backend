@@ -1,5 +1,6 @@
 package com.veterinaria.cita.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.veterinaria.mascota.model.Mascota;
 import com.veterinaria.servicio.model.Servicio;
 import com.veterinaria.veterinario.model.Veterinario;
@@ -18,6 +19,7 @@ public class Cita {
     @Enumerated(EnumType.STRING)
     private EstadoCita estado = EstadoCita.RESERVADA;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime fechaHora;
 
     @ManyToOne
