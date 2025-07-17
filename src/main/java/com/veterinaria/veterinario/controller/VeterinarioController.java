@@ -1,5 +1,6 @@
 package com.veterinaria.veterinario.controller;
 
+import com.veterinaria.veterinario.dto.VeterinarioDTO;
 import com.veterinaria.veterinario.model.Veterinario;
 import com.veterinaria.veterinario.service.VeterinarioService;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class VeterinarioController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Veterinario> crearVeterinario(@RequestBody Veterinario veterinario) {
-        return ResponseEntity.ok(veterinarioService.crearVeterinario(veterinario));
+    public ResponseEntity<Veterinario> crearVeterinario(@RequestBody VeterinarioDTO veterinarioDTO) {
+        return ResponseEntity.ok(veterinarioService.crearVeterinario(veterinarioDTO));
     }
 
 }

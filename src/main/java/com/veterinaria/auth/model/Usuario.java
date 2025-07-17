@@ -1,6 +1,7 @@
 package com.veterinaria.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
+@JsonIgnoreProperties("roles")
 public class Usuario {
 
     @Id
@@ -21,6 +23,7 @@ public class Usuario {
     private String email;
     private String password;
     private String rol;
+    private String telefono;
 
     @Column(name = "fecha_registro", nullable = false, updatable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
@@ -37,15 +40,16 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, LocalDateTime fechaRegistro, String rol, Set<Role> roles) {
+    public Usuario(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, String rol, String telefono, LocalDateTime fechaRegistro, Set<Role> roles) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.email = email;
         this.password = password;
-        this.fechaRegistro = fechaRegistro;
         this.rol = rol;
+        this.telefono = telefono;
+        this.fechaRegistro = fechaRegistro;
         this.roles = roles;
     }
 
@@ -112,12 +116,12 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public LocalDateTime getFechaRegistro() {
@@ -128,17 +132,11 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", rol='" + rol + '\'' +
-                ", roles=" + roles +
-                '}';
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

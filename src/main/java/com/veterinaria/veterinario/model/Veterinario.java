@@ -13,8 +13,6 @@ public class Veterinario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String telefono;
     private String especialidad;
 
     @Column(name = "fecha_registro", nullable = false, updatable = false)
@@ -28,12 +26,18 @@ public class Veterinario {
     public Veterinario() {
     }
 
-    public Veterinario(Long id, String telefono, String especialidad, LocalDateTime fechaRegistro, Usuario usuario) {
+    public Veterinario(Long id, String especialidad, LocalDateTime fechaRegistro, Usuario usuario) {
         this.id = id;
-        this.telefono = telefono;
         this.especialidad = especialidad;
         this.fechaRegistro = fechaRegistro;
         this.usuario = usuario;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if(this.fechaRegistro == null) {
+            this.fechaRegistro = LocalDateTime.now();
+        }
     }
 
     public Long getId() {
@@ -42,14 +46,6 @@ public class Veterinario {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
     }
 
     public String getEspecialidad() {
@@ -80,7 +76,6 @@ public class Veterinario {
     public String toString() {
         return "Veterinario{" +
                 "id=" + id +
-                ", telefono='" + telefono + '\'' +
                 ", especialidad='" + especialidad + '\'' +
                 ", fechaRegistro=" + fechaRegistro +
                 ", usuario=" + usuario +

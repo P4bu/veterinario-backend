@@ -1,5 +1,6 @@
 package com.veterinaria.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role")
+@JsonIgnoreProperties("usuario")
 public class Role {
 
     @Id
