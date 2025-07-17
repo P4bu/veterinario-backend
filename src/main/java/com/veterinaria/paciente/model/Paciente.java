@@ -14,8 +14,6 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String telefono;
-
     @Column(name = "fecha_registro", nullable = false, updatable = false)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime fechaRegistro;
@@ -27,9 +25,8 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(Long id, String telefono, LocalDateTime fechaRegistro, Usuario usuario) {
+    public Paciente(Long id, LocalDateTime fechaRegistro, Usuario usuario) {
         this.id = id;
-        this.telefono = telefono;
         this.fechaRegistro = fechaRegistro;
         this.usuario = usuario;
     }
@@ -47,14 +44,6 @@ public class Paciente {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
     }
 
     public Usuario getUsuario() {
@@ -77,7 +66,7 @@ public class Paciente {
     public String toString() {
         return "Paciente{" +
                 "id=" + id +
-                ", telefono='" + telefono + '\'' +
+                ", fechaRegistro=" + fechaRegistro +
                 ", usuario=" + usuario +
                 '}';
     }

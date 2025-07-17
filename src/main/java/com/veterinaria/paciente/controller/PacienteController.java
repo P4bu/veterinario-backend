@@ -1,5 +1,6 @@
 package com.veterinaria.paciente.controller;
 
+import com.veterinaria.paciente.dto.PacienteDTO;
 import com.veterinaria.paciente.model.Paciente;
 import com.veterinaria.paciente.service.PacienteService;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class PacienteController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Paciente> crearPaciente(@RequestBody Paciente paciente) {
-        return ResponseEntity.ok(pacienteService.crearPaciente(paciente));
+    public ResponseEntity<Paciente> crearPaciente(@RequestBody PacienteDTO pacienteDTO) {
+        return ResponseEntity.ok(pacienteService.crearPaciente(pacienteDTO));
     }
 
 }
