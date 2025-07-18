@@ -1,5 +1,6 @@
 package com.veterinaria.mascota.controller;
 
+import com.veterinaria.mascota.dto.MascotaDTO;
 import com.veterinaria.mascota.model.Mascota;
 import com.veterinaria.mascota.service.MascotaService;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class MascotaController {
     }
 
     @PostMapping("/crear/{pacienteId}")
-    public ResponseEntity<Mascota> crear(@RequestBody Mascota mascota, @PathVariable Long pacienteId) {
-        return ResponseEntity.ok(mascotaService.crearMascota(mascota, pacienteId));
+    public ResponseEntity<MascotaDTO> crear(@RequestBody MascotaDTO mascotaDTO, @PathVariable Long pacienteId) {
+        return ResponseEntity.ok(mascotaService.crearMascota(mascotaDTO, pacienteId));
     }
 
     @GetMapping("/{pacienteId}")

@@ -1,5 +1,6 @@
 package com.veterinaria.servicio.controller;
 
+import com.veterinaria.servicio.dto.ServicioDTO;
 import com.veterinaria.servicio.model.Servicio;
 import com.veterinaria.servicio.service.ServicioService;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class ServicioController {
     }
 
     @PostMapping("/crearServicio")
-    public ResponseEntity<Servicio> crearServicio(@RequestBody Servicio servicio) {
-        return ResponseEntity.ok(servicioService.crearServicio(servicio));
+    public ResponseEntity<ServicioDTO> crearServicio(@RequestBody ServicioDTO servicioDTO) {
+        return ResponseEntity.ok(servicioService.crearServicio(servicioDTO));
     }
 
     @GetMapping("/servicioPorId/{id}")
