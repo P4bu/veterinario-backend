@@ -1,6 +1,7 @@
 package com.veterinaria.servicio.controller;
 
 import com.veterinaria.servicio.dto.ServicioDTO;
+import com.veterinaria.servicio.dto.ServicioResponseDTO;
 import com.veterinaria.servicio.model.Servicio;
 import com.veterinaria.servicio.service.ServicioService;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ServicioController {
     }
 
     @GetMapping("/listarTodos")
-    public ResponseEntity<List<Servicio>> listarServicios() {
+    public ResponseEntity<List<ServicioResponseDTO>> listarServicios() {
         return ResponseEntity.ok(servicioService.listarServicios());
     }
 
@@ -29,11 +30,12 @@ public class ServicioController {
     }
 
     @GetMapping("/servicioPorId/{id}")
-    public ResponseEntity<Servicio> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<ServicioResponseDTO> obtenerPorId(@PathVariable Long id) {
         return servicioService.obtenerPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<List<Servicio>> servicioPorVeterinario(@PathVariable Long veterinarioId) {
+    @GetMapping("/servicioPorVeterinario/{veterinarioId}")
+    public ResponseEntity<List<ServicioResponseDTO>> servicioPorVeterinario(@PathVariable Long veterinarioId) {
         return ResponseEntity.ok(servicioService.listarPorVeterinario(veterinarioId));
     }
 

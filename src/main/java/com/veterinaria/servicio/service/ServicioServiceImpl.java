@@ -1,6 +1,7 @@
 package com.veterinaria.servicio.service;
 
 import com.veterinaria.servicio.dto.ServicioDTO;
+import com.veterinaria.servicio.dto.ServicioResponseDTO;
 import com.veterinaria.servicio.mapper.ServicioMapper;
 import com.veterinaria.servicio.model.Servicio;
 import com.veterinaria.servicio.repository.ServicioRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicioServiceImpl implements ServicioService {
@@ -33,17 +35,23 @@ public class ServicioServiceImpl implements ServicioService {
     }
 
     @Override
-    public List<Servicio> listarServicios() {
-        return servicioRepository.findAll();
+    public List<ServicioResponseDTO> listarServicios() {
+        List<Servicio> servicios = servicioRepository.findAll();
+
+        return servicios.stream().map(ServicioMapper::toResponseDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<Servicio> listarPorVeterinario(Long veterinarioId) {
-        return servicioRepository.findByVeterinarioId(veterinarioId);
+    public List<ServicioResponseDTO> listarPorVeterinario(Long veterinarioId) {
+        List<Servicio> servicio = servicioRepository.findByVeterinarioId(veterinarioId);
+
+        return servicio.stream().map(ServicioMapper::toResponseDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Servicio> obtenerPorId(Long id) {
-        return servicioRepository.findById(id);
+    public Optional<ServicioResponseDTO> obtenerPorId(Long id) {
+        Optional<Servicio> servicio = servicioRepository.findById(id);
+
+        return servicio.map(ServicioMapper::toResponseDTO);
     }
 }

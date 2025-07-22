@@ -6,12 +6,15 @@ import com.veterinaria.auth.model.Usuario;
 import com.veterinaria.auth.repository.RoleRepository;
 import com.veterinaria.auth.repository.UsuarioRepository;
 import com.veterinaria.paciente.dto.PacienteDTO;
+import com.veterinaria.paciente.dto.PacienteResponseDTO;
+import com.veterinaria.paciente.mapper.PacienteMapper;
 import com.veterinaria.paciente.model.Paciente;
 import com.veterinaria.paciente.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PacienteServiceImpl implements PacienteService{
@@ -28,6 +31,10 @@ public class PacienteServiceImpl implements PacienteService{
 
     @Override
     public Paciente crearPaciente(PacienteDTO pacienteDTO) {
+        if(pacienteRepository.existsByUsuarioEmail(pacienteDTO.getEmail())){
+            throw new IllegalArgumentException("EL EMAIL YA EXISTE EN LA BASE DE DATOS");
+        }
+
         Role roleUsuario = roleRepository.findByNombre(Erole.PACIENTE);
 
         Usuario usuario = new Usuario();
@@ -52,12 +59,16 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Override
-    public Optional<Paciente> obtenerPacientePorId(Long id) {
-        return pacienteRepository.findById(id);
+    public Optional<PacienteResponseDTO> obtenerPacientePorId(Long id) {
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+
+        return paciente.map(PacienteMapper::toResponseDTO);
     }
 
     @Override
-    public List<Paciente> listarPacientes() {
-        return pacienteRepository.findAll();
+    public List<PacienteResponseDTO> listarPacientes() {
+        List<Paciente> pacientes = pacienteRepository.findAll();
+
+        return pacientes.stream().map(PacienteMapper::toResponseDTO).collect(Collectors.toList());
     }
 }

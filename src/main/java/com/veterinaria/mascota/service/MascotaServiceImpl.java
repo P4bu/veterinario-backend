@@ -1,6 +1,7 @@
 package com.veterinaria.mascota.service;
 
 import com.veterinaria.mascota.dto.MascotaDTO;
+import com.veterinaria.mascota.dto.MascotaResponseDTO;
 import com.veterinaria.mascota.mapper.MascotaMapper;
 import com.veterinaria.mascota.model.Mascota;
 import com.veterinaria.mascota.repository.MascotaRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MascotaServiceImpl implements MascotaService {
@@ -25,7 +27,7 @@ public class MascotaServiceImpl implements MascotaService {
     @Override
     public MascotaDTO crearMascota(MascotaDTO mascotaDTO, Long pacienteId) {
         Optional<Paciente> pacienteOptional = pacienteRepository.findById(pacienteId);
-        if(!pacienteOptional.isPresent()) {
+        if(pacienteOptional.isEmpty()) {
             throw new IllegalArgumentException("EL PACIENTE NO EXISTE EN LA BASE DE DATOS");
         }
 
@@ -38,12 +40,15 @@ public class MascotaServiceImpl implements MascotaService {
     }
 
     @Override
-    public List<Mascota> obtenerMascotaPorPaciente(Long pacienteId) {
-        return mascotaRepository.findByPacienteId(pacienteId);
+    public List<MascotaResponseDTO> obtenerMascotaPorPaciente(Long pacienteId) {
+        List<Mascota> mascotas = mascotaRepository.findByPacienteId(pacienteId);
+
+        return mascotas.stream().map(MascotaMapper::toResponseDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<Mascota> ListarMascota() {
-        return mascotaRepository.findAll();
+    public List<MascotaResponseDTO> ListarMascota() {
+        List<Mascota> mascotas = mascotaRepository.findAll();
+        return mascotas.stream().map(MascotaMapper::toResponseDTO).collect(Collectors.toList());
     }
 }

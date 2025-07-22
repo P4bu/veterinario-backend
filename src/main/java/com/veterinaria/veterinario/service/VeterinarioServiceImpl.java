@@ -6,12 +6,15 @@ import com.veterinaria.auth.model.Usuario;
 import com.veterinaria.auth.repository.RoleRepository;
 import com.veterinaria.auth.repository.UsuarioRepository;
 import com.veterinaria.veterinario.dto.VeterinarioDTO;
+import com.veterinaria.veterinario.dto.VeterinarioResponseDTO;
+import com.veterinaria.veterinario.mapper.VeterinarioMapper;
 import com.veterinaria.veterinario.model.Veterinario;
 import com.veterinaria.veterinario.repository.VeterinarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VeterinarioServiceImpl implements VeterinarioService{
@@ -28,6 +31,10 @@ public class VeterinarioServiceImpl implements VeterinarioService{
 
     @Override
     public Veterinario crearVeterinario(VeterinarioDTO veterinarioDTO) {
+        if(veterinarioRepository.existsByUsuarioEmail(veterinarioDTO.getEmail())){
+            throw new IllegalArgumentException("EL EMAIL YA EXISTE EN LA BASE DE DATOS");
+        }
+
         Role roleUsuario = roleRepository.findByNombre(Erole.VETERINARIO);
 
         Usuario usuario = new Usuario();
@@ -55,12 +62,16 @@ public class VeterinarioServiceImpl implements VeterinarioService{
     }
 
     @Override
-    public Optional<Veterinario> obtenerVeterinarioPorId(Long id) {
-        return veterinarioRepository.findById(id);
+    public Optional<VeterinarioResponseDTO> obtenerVeterinarioPorId(Long id) {
+        Optional<Veterinario> veterinario = veterinarioRepository.findById(id);
+
+        return veterinario.map(VeterinarioMapper::toResponseDTO);
     }
 
     @Override
-    public List<Veterinario> obtenerVeterinarios() {
-        return veterinarioRepository.findAll();
+    public List<VeterinarioResponseDTO> obtenerVeterinarios() {
+        List<Veterinario> veterinarios = veterinarioRepository.findAll();
+
+        return veterinarios.stream().map(VeterinarioMapper::toResponseDTO).collect(Collectors.toList());
     }
 }

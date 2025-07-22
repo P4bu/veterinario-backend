@@ -1,6 +1,7 @@
 package com.veterinaria.mascota.controller;
 
 import com.veterinaria.mascota.dto.MascotaDTO;
+import com.veterinaria.mascota.dto.MascotaResponseDTO;
 import com.veterinaria.mascota.model.Mascota;
 import com.veterinaria.mascota.service.MascotaService;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,12 @@ public class MascotaController {
     }
 
     @GetMapping("/{pacienteId}")
-    public ResponseEntity<List<Mascota>> obtenerMascotaPorPaciente(@PathVariable Long pacienteId) {
+    public ResponseEntity<List<MascotaResponseDTO>> obtenerMascotaPorPaciente(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(mascotaService.obtenerMascotaPorPaciente(pacienteId));
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Mascota>> obtenerMascotas() {
+    public ResponseEntity<List<MascotaResponseDTO>> obtenerMascotas() {
         return ResponseEntity.ok(mascotaService.ListarMascota());
     }
 

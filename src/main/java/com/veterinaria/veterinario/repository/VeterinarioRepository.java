@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface VeterinarioRepository extends JpaRepository<Veterinario, Long> {
     Optional<Veterinario> findByUsuarioEmail(String email);
+    Boolean existsByUsuarioEmail(String email);
 }

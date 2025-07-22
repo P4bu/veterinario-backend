@@ -1,0 +1,53 @@
+package com.veterinaria.servicio.dto;
+
+import com.veterinaria.shared.VeterinarioInfoDTO;
+
+public class ServicioResponseDTO {
+
+    private String nombre;
+    private String descripcion;
+    private int duracionMinutos;
+    private Double precio;
+
+    private VeterinarioInfoDTO veterinarioInfoDTO;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getDuracionMinutos() {
+        return duracionMinutos;
+    }
+
+    public void setDuracionMinutos(int duracionMinutos) {
+        this.duracionMinutos = duracionMinutos;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public VeterinarioInfoDTO getVeterinarioInfoDTO() {
+        return veterinarioInfoDTO;
+    }
+
+    public void setVeterinarioInfoDTO(VeterinarioInfoDTO veterinarioInfoDTO) {
+        this.veterinarioInfoDTO = veterinarioInfoDTO;
+    }
+}

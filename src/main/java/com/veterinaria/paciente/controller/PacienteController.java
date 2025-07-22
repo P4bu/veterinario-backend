@@ -1,6 +1,7 @@
 package com.veterinaria.paciente.controller;
 
 import com.veterinaria.paciente.dto.PacienteDTO;
+import com.veterinaria.paciente.dto.PacienteResponseDTO;
 import com.veterinaria.paciente.model.Paciente;
 import com.veterinaria.paciente.service.PacienteService;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class PacienteController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Paciente>> listaPacientes(){
+    public ResponseEntity<List<PacienteResponseDTO>> listaPacientes(){
         return ResponseEntity.ok(pacienteService.listarPacientes());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> obtenerPaciente(@PathVariable Long id){
+    public ResponseEntity<PacienteResponseDTO> obtenerPaciente(@PathVariable Long id){
         return pacienteService.obtenerPacientePorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

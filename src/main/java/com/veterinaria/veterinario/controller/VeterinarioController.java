@@ -1,6 +1,7 @@
 package com.veterinaria.veterinario.controller;
 
 import com.veterinaria.veterinario.dto.VeterinarioDTO;
+import com.veterinaria.veterinario.dto.VeterinarioResponseDTO;
 import com.veterinaria.veterinario.model.Veterinario;
 import com.veterinaria.veterinario.service.VeterinarioService;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class VeterinarioController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Veterinario>> listarVeterinario() {
+    public ResponseEntity<List<VeterinarioResponseDTO>> listarVeterinario() {
         return ResponseEntity.ok(veterinarioService.obtenerVeterinarios());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Veterinario> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<VeterinarioResponseDTO> obtenerPorId(@PathVariable Long id) {
         return veterinarioService.obtenerVeterinarioPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
