@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FichaMedicaRepository extends JpaRepository<FichaMedica, Long> {
     List<FichaMedica> findByMascotaId(Long mascotaId);
+    List<FichaMedica> findByVeterinarioId(Long veterinarioId);
 }
