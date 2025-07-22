@@ -22,6 +22,8 @@ public class Cita {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime fechaHora;
 
+    private String motivo;
+
     @ManyToOne
     @JoinColumn(name = "mascota_id", nullable = false)
     private Mascota mascota;
@@ -36,10 +38,11 @@ public class Cita {
 
     public Cita(){}
 
-    public Cita(Long id, EstadoCita estado, LocalDateTime fechaHora, Mascota mascota, Veterinario veterinario, Servicio servicio) {
+    public Cita(Long id, EstadoCita estado, LocalDateTime fechaHora, String motivo, Mascota mascota, Veterinario veterinario, Servicio servicio) {
         this.id = id;
         this.estado = estado;
         this.fechaHora = fechaHora;
+        this.motivo = motivo;
         this.mascota = mascota;
         this.veterinario = veterinario;
         this.servicio = servicio;
@@ -65,8 +68,16 @@ public class Cita {
         return fechaHora;
     }
 
-    public void setFechaHora (LocalDateTime fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
     public Mascota getMascota() {

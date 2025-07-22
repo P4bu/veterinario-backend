@@ -1,5 +1,6 @@
 package com.veterinaria.ingreso.model;
 
+import com.veterinaria.cita.model.Cita;
 import com.veterinaria.servicio.model.Servicio;
 import com.veterinaria.veterinario.model.Veterinario;
 import jakarta.persistence.*;
@@ -24,14 +25,19 @@ public class Ingreso {
     @JoinColumn(name = "servicio_id", nullable = false)
     private Servicio servicio;
 
+    @OneToOne
+    @JoinColumn(name = "cita_id")
+    private Cita cita;
+
     public Ingreso(){}
 
-    public Ingreso(Long id, Double monto, LocalDateTime fecha, Veterinario veterinario, Servicio servicio) {
+    public Ingreso(Long id, Double monto, LocalDateTime fecha, Veterinario veterinario, Servicio servicio, Cita cita) {
         this.id = id;
         this.monto = monto;
         this.fecha = fecha;
         this.veterinario = veterinario;
         this.servicio = servicio;
+        this.cita = cita;
     }
 
     public Long getId() {
@@ -74,14 +80,11 @@ public class Ingreso {
         this.servicio = servicio;
     }
 
-    @Override
-    public String toString() {
-        return "Ingreso{" +
-                "id=" + id +
-                ", monto=" + monto +
-                ", fecha=" + fecha +
-                ", veterinario=" + veterinario +
-                ", servicio=" + servicio +
-                '}';
+    public Cita getCita() {
+        return cita;
+    }
+
+    public void setCita(Cita cita) {
+        this.cita = cita;
     }
 }

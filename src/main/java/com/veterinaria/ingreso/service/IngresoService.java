@@ -1,6 +1,7 @@
 package com.veterinaria.ingreso.service;
 
 import com.veterinaria.cita.model.Cita;
+import com.veterinaria.ingreso.dto.IngresoDTO;
 import com.veterinaria.ingreso.model.Ingreso;
 
 import java.time.LocalDateTime;
@@ -11,5 +12,5 @@ public interface IngresoService {
     List<Ingreso> listarIngresosPorVeterinario(Long veterinarioId);
     List<Ingreso> listarIngresosPorRango(Long veterinarioId, LocalDateTime inicio, LocalDateTime fin);
     Double calcularTotalIngresos(Long veterinarioId);
-    void registrarIngresoDesdeCita(Cita cita);
+    IngresoDTO registrarIngresoDesdeCita(Cita cita);
 }

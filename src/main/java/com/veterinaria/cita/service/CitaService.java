@@ -1,15 +1,17 @@
 package com.veterinaria.cita.service;
 
+import com.veterinaria.cita.dto.CitaDTO;
+import com.veterinaria.cita.dto.CitaResponseDTO;
 import com.veterinaria.cita.model.Cita;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CitaService {
-    Cita crearCita(Cita cita);
+    CitaResponseDTO crearCita(CitaDTO citaDTO);
     Cita modificarEstado(Long citaId, String nuevoEstado);
-    List<Cita> listarCitas();
-    List<Cita> listarPorVeterinario(Long veterinarioId);
-    List<Cita> listarPorMascota(Long mascotaId);
-    Optional<Cita> obtenerPorId(Long id);
+    List<CitaResponseDTO> listarCitas();
+    List<CitaResponseDTO> listarPorVeterinario(Long veterinarioId);
+    List<CitaResponseDTO> listarPorMascota(Long mascotaId);
+    Optional<CitaResponseDTO> obtenerPorId(Long id);
 }

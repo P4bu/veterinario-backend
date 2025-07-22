@@ -1,8 +1,11 @@
 package com.veterinaria.ingreso.service;
 
 import com.veterinaria.cita.model.Cita;
+import com.veterinaria.ingreso.dto.IngresoDTO;
+import com.veterinaria.ingreso.mapper.IngresoMapper;
 import com.veterinaria.ingreso.model.Ingreso;
 import com.veterinaria.ingreso.repository.IngresoRespository;
+import com.veterinaria.servicio.repository.ServicioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,9 +15,11 @@ import java.util.List;
 public class IngresoServiceImpl implements IngresoService {
 
     private final IngresoRespository ingresoRespository;
+    private final ServicioRepository servicioRepository;
 
-    public IngresoServiceImpl(IngresoRespository ingresoRespository) {
+    public IngresoServiceImpl(IngresoRespository ingresoRespository, ServicioRepository servicioRepository) {
         this.ingresoRespository = ingresoRespository;
+        this.servicioRepository = servicioRepository;
     }
 
     @Override
@@ -41,23 +46,23 @@ public class IngresoServiceImpl implements IngresoService {
     }
 
     @Override
-    public void registrarIngresoDesdeCita(Cita cita) {
-        Long veterinarioId = cita.getVeterinario().getId();
-        Long servicioId = cita.getServicio().getId();
-
-        boolean yaRegistrado = ingresoRespository.existsIngresoParaHoy(veterinarioId, servicioId);
-
-        if(yaRegistrado) {
-            System.out.print("INGRESO YA REGISTRADO PARA ESTA CITA HOY. NO SE PUEDE DUPLICAR");
-            return;
+    public IngresoDTO registrarIngresoDesdeCita(Cita cita) {
+        if(cita == null || cita.getServicio() == null || cita.getVeterinario() == null) {
+            throw new IllegalArgumentException("CITA, SERVICIO O VETERINARIO NO VALIDO PARA GENERAR INGRESO");
         }
 
-        Ingreso ingreso = new Ingreso();
-        ingreso.setFecha(LocalDateTime.now());
-        ingreso.setMonto(cita.getServicio().getPrecio());
-        ingreso.setVeterinario(cita.getVeterinario());
-        ingreso.setServicio(cita.getServicio());
+        Ingreso ingresoGuardado = new Ingreso();
+        ingresoGuardado.setMonto(cita.getServicio().getPrecio());
+        ingresoGuardado.setFecha(cita.getFechaHora());
+        ingresoGuardado.setServicio(cita.getServicio());
+        ingresoGuardado.setVeterinario(cita.getVeterinario());
+        ingresoGuardado.setCita(cita);
 
-        ingresoRespository.save(ingreso);
+        ingresoGuardado = ingresoRespository.save(ingresoGuardado);
+
+        System.out.println("Servicio: " + cita.getServicio());
+        System.out.println("Precio: " + cita.getServicio().getPrecio());
+        return IngresoMapper.toDTO(ingresoGuardado);
+
     }
 }
