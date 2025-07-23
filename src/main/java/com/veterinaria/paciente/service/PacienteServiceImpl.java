@@ -10,6 +10,7 @@ import com.veterinaria.paciente.dto.PacienteResponseDTO;
 import com.veterinaria.paciente.mapper.PacienteMapper;
 import com.veterinaria.paciente.model.Paciente;
 import com.veterinaria.paciente.repository.PacienteRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +23,13 @@ public class PacienteServiceImpl implements PacienteService{
     private final PacienteRepository pacienteRepository;
     private final RoleRepository roleRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PacienteServiceImpl(PacienteRepository pacienteRepository, RoleRepository roleRepository, UsuarioRepository usuarioRepository){
+    public PacienteServiceImpl(PacienteRepository pacienteRepository, RoleRepository roleRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
         this.pacienteRepository = pacienteRepository;
         this.roleRepository = roleRepository;
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class PacienteServiceImpl implements PacienteService{
         if(pacienteDTO.getPassword() == null || pacienteDTO.getPassword().isBlank()) {
             throw new IllegalArgumentException("LA CONTRASEÑA NO PUEDE ESTAR VACIA");
         }
-        usuario.setPassword(pacienteDTO.getPassword());
+        usuario.setPassword(passwordEncoder.encode(pacienteDTO.getPassword()));
         usuario.getRoles().add(roleUsuario);
         usuario.setRol(pacienteDTO.getRol());
         usuario.setTelefono(pacienteDTO.getTelefono());

@@ -10,6 +10,7 @@ import com.veterinaria.veterinario.dto.VeterinarioResponseDTO;
 import com.veterinaria.veterinario.mapper.VeterinarioMapper;
 import com.veterinaria.veterinario.model.Veterinario;
 import com.veterinaria.veterinario.repository.VeterinarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +23,13 @@ public class VeterinarioServiceImpl implements VeterinarioService{
     private final VeterinarioRepository veterinarioRepository;
     private final RoleRepository roleRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public VeterinarioServiceImpl(VeterinarioRepository veterinarioRepository, RoleRepository roleRepository, UsuarioRepository usuarioRepository) {
+    public VeterinarioServiceImpl(VeterinarioRepository veterinarioRepository, RoleRepository roleRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.veterinarioRepository = veterinarioRepository;
         this.roleRepository = roleRepository;
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class VeterinarioServiceImpl implements VeterinarioService{
         if(veterinarioDTO.getPassword() == null || veterinarioDTO.getPassword().isBlank()) {
             throw new IllegalArgumentException("LA CONTRASEÑA NO PUEDE ESTAR VACIA");
         }
-        usuario.setPassword(veterinarioDTO.getPassword());
+        usuario.setPassword(passwordEncoder.encode(veterinarioDTO.getPassword()));
 
         usuario.getRoles().add(roleUsuario);
         usuario.setRol(veterinarioDTO.getRol());
